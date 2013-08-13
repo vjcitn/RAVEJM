@@ -111,7 +111,7 @@ slp <- out[rownames(out)=="Assoct.s",]; rownames(slp) <- 1:nrow(slp); slp <- as.
 %## figures to show individual profile and its estimated trajectory for selected assay tests
 %#####################################################################################################################################################################################################
 %pdf("ANCA_linechart.pdf",width=8.5,height=11)
-## ANCA
+%## ANCA
 Figures for profiles and trajectories
 <<doancpsetup,fig=FALSE,cache=TRUE>>=
 i <- "ANCA"
@@ -148,7 +148,7 @@ fit.JM <- try(jointModel(fitLME,fitSURV,timeVar="months",method="spline-PH-aGH",
 %## build a specified trajectory
 % FIXME expand.grid should work
 Stipulated data
-<<buildinput>>=
+<<buildinput,cache=TRUE>>=
 trj <- NULL
 v0 <- median(dat$log2_val[dat$TRT=="CYC"&!is.na(dat$log2_val)&dat$months==0])
 trj <- rbind(trj,data.frame(id="CYC_nochg",log2_val=v0,months=0,TRT="CYC"))
