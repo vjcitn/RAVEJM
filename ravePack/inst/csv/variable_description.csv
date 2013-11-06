@@ -1,0 +1,29 @@
+# patient_strat,
+variable,description
+USUBJID,subject ID
+TRT,treatment group
+censor_day,days from baseline to disease flare/M18 follow-up/early withdrawal
+flare_status,classifier of having flare regardless of severity
+flwup_status,reason for censoring (disease flare/M18 follow-up/early withdrawal)
+
+# flare_analysis_data,
+variable,description
+new_defn,population definition
+USUBJID,subject ID
+TRT,treatment group
+value,flow value
+VISDT,visit date
+BL_date,baseline date for each subject
+days_from_BL,VISDT-BL_date
+elisa,ANCA titer
+TSCORE,BVAS score
+GLCDOSE,prednisone dose at visit
+GLCCUM,cumulative dose of prednisone
+xv,visit name
+anal_svfl,indicator of severe flare at visit
+anal_lmfl,indicator of limited flare at visit
+flare_mod,classifier of having severe/limited flare or not
+censor_day,days from baseline to disease flare/M18 follow-up/early withdrawal
+log2_value,log2 transformed flow value
+flare_status,classifier of having flare regardless of severity
+anal_flare,indicator of flare at visit regardless of severity

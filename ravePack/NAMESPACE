@@ -1,1 +1,8 @@
 exportPattern("..*")
+
+export( getcox, getz, grabSspec, makeFlowFrame )
+importClassesFrom(Biobase, ExpressionSet)
+S3method(plot,qmod)
+S3method(print,qmod)
+S3method(print,ravecox)
+

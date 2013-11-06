@@ -1,0 +1,161 @@
+USUBJID,TRT,censor_day,flare_status,flwup_status
+1002,RTX,536,Normal,Complete 18 Month
+1003,RTX,552,Normal,Complete 18 Month
+1005,CYC,523,Normal,Complete 18 Month
+1006,RTX,348,Flare,Disease Flare
+1008,CYC,544,Normal,Complete 18 Month
+1009,CYC,536,Normal,Complete 18 Month
+1010,CYC,328,Flare,Disease Flare
+1011,RTX,267,Flare,Disease Flare
+1012,CYC,544,Normal,Complete 18 Month
+1013,RTX,314,Flare,Disease Flare
+1015,CYC,296,Flare,Disease Flare
+1016,RTX,539,Normal,Complete 18 Month
+1019,CYC,204,Flare,Disease Flare
+1020,RTX,309,Flare,Disease Flare
+1021,RTX,420,Flare,Disease Flare
+1022,CYC,539,Normal,Complete 18 Month
+1023,RTX,547,Normal,Complete 18 Month
+1025,RTX,545,Normal,Complete 18 Month
+1026,RTX,531,Normal,Complete 18 Month
+1027,CYC,231,Flare,Disease Flare
+1028,CYC,529,Normal,Complete 18 Month
+1101,RTX,550,Normal,Complete 18 Month
+1102,RTX,572,Normal,Complete 18 Month
+1104,CYC,444,Normal,Lost Follow-up
+1105,CYC,550,Normal,Complete 18 Month
+1106,RTX,536,Normal,Complete 18 Month
+1107,RTX,518,Normal,Complete 18 Month
+1108,CYC,538,Normal,Complete 18 Month
+1109,CYC,539,Normal,Complete 18 Month
+1110,CYC,545,Normal,Complete 18 Month
+2002,CYC,536,Normal,Complete 18 Month
+2003,RTX,535,Normal,Complete 18 Month
+2004,RTX,539,Normal,Complete 18 Month
+2007,RTX,454,Flare,Disease Flare
+2009,RTX,545,Flare,Disease Flare
+2010,RTX,380,Flare,Disease Flare
+2011,CYC,391,Flare,Disease Flare
+2012,CYC,509,Flare,Disease Flare
+2013,RTX,538,Normal,Complete 18 Month
+2014,CYC,533,Flare,Disease Flare
+2015,RTX,545,Normal,Complete 18 Month
+2016,RTX,553,Normal,Complete 18 Month
+2017,CYC,545,Normal,Complete 18 Month
+2018,RTX,538,Normal,Complete 18 Month
+2019,CYC,195,Flare,Disease Flare
+2020,RTX,456,Flare,Disease Flare
+2021,CYC,547,Normal,Complete 18 Month
+2022,CYC,547,Normal,Complete 18 Month
+2023,RTX,441,Flare,Disease Flare
+2024,CYC,557,Normal,Complete 18 Month
+2025,RTX,538,Normal,Complete 18 Month
+2027,CYC,554,Normal,Complete 18 Month
+2028,RTX,550,Normal,Complete 18 Month
+2029,RTX,361,Flare,Disease Flare
+2030,RTX,538,Normal,Complete 18 Month
+2031,CYC,540,Normal,Complete 18 Month
+2033,RTX,532,Normal,Complete 18 Month
+2101,CYC,398,Flare,Disease Flare
+2102,RTX,535,Normal,Complete 18 Month
+2103,CYC,536,Normal,Complete 18 Month
+2105,RTX,543,Normal,Complete 18 Month
+2106,RTX,535,Normal,Complete 18 Month
+2108,RTX,545,Normal,Complete 18 Month
+2109,CYC,550,Normal,Complete 18 Month
+2110,CYC,297,Normal,Lost Follow-up
+2111,RTX,534,Normal,Complete 18 Month
+2112,CYC,543,Normal,Complete 18 Month
+2114,RTX,179,Normal,Lost Follow-up
+2116,CYC,543,Normal,Complete 18 Month
+2117,CYC,535,Normal,Complete 18 Month
+2118,CYC,544,Normal,Complete 18 Month
+2119,RTX,539,Normal,Complete 18 Month
+2120,RTX,266,Flare,Disease Flare
+2121,CYC,543,Normal,Complete 18 Month
+4001,RTX,372,Flare,Disease Flare
+4002,CYC,550,Normal,Complete 18 Month
+4004,CYC,527,Flare,Disease Flare
+4005,RTX,553,Normal,Complete 18 Month
+4008,RTX,274,Flare,Disease Flare
+4009,CYC,592,Normal,Complete 18 Month
+4011,RTX,541,Normal,Complete 18 Month
+4012,CYC,335,Flare,Disease Flare
+4013,CYC,560,Normal,Complete 18 Month
+4014,CYC,581,Normal,Complete 18 Month
+4016,CYC,385,Flare,Disease Flare
+4017,RTX,224,Flare,Disease Flare
+4018,RTX,232,Flare,Disease Flare
+5003,CYC,545,Normal,Complete 18 Month
+5004,CYC,364,Flare,Disease Flare
+5005,RTX,358,Flare,Disease Flare
+5008,CYC,517,Normal,Complete 18 Month
+5101,CYC,538,Normal,Complete 18 Month
+5102,RTX,546,Normal,Complete 18 Month
+5104,RTX,532,Normal,Complete 18 Month
+5105,CYC,176,Normal,Lost Follow-up
+5106,CYC,546,Normal,Complete 18 Month
+5107,CYC,545,Normal,Complete 18 Month
+5108,RTX,511,Flare,Disease Flare
+5109,RTX,503,Normal,Complete 18 Month
+5110,CYC,531,Normal,Complete 18 Month
+6001,RTX,227,Flare,Disease Flare
+6002,CYC,534,Normal,Complete 18 Month
+6003,CYC,539,Flare,Disease Flare
+6005,RTX,546,Normal,Complete 18 Month
+6006,RTX,536,Normal,Complete 18 Month
+6008,RTX,525,Normal,Complete 18 Month
+6009,CYC,231,Flare,Disease Flare
+6011,CYC,222,Flare,Disease Flare
+6012,CYC,540,Normal,Complete 18 Month
+6013,RTX,396,Normal,Lost Follow-up
+6014,RTX,547,Normal,Complete 18 Month
+6015,CYC,547,Normal,Complete 18 Month
+6016,RTX,532,Normal,Complete 18 Month
+6018,RTX,272,Flare,Disease Flare
+6020,CYC,270,Flare,Disease Flare
+6022,CYC,366,Flare,Disease Flare
+6023,RTX,535,Normal,Complete 18 Month
+6024,RTX,273,Flare,Disease Flare
+6025,CYC,529,Normal,Complete 18 Month
+6101,RTX,504,Normal,Complete 18 Month
+6102,CYC,539,Normal,Complete 18 Month
+6105,CYC,543,Normal,Complete 18 Month
+6106,CYC,559,Normal,Complete 18 Month
+6107,RTX,286,Flare,Disease Flare
+6108,RTX,529,Normal,Complete 18 Month
+6109,CYC,540,Normal,Complete 18 Month
+6110,RTX,546,Normal,Complete 18 Month
+6113,RTX,245,Flare,Disease Flare
+6114,CYC,535,Normal,Complete 18 Month
+6115,CYC,543,Normal,Complete 18 Month
+6116,RTX,546,Normal,Complete 18 Month
+6117,RTX,360,Flare,Disease Flare
+6118,RTX,543,Normal,Complete 18 Month
+6119,CYC,357,Normal,Lost Follow-up
+6120,CYC,271,Flare,Disease Flare
+7002,CYC,543,Normal,Complete 18 Month
+7003,CYC,440,Flare,Disease Flare
+7004,RTX,546,Normal,Complete 18 Month
+7006,CYC,554,Normal,Complete 18 Month
+7007,RTX,447,Flare,Disease Flare
+7102,RTX,546,Normal,Complete 18 Month
+8002,RTX,269,Normal,Lost Follow-up
+8003,CYC,267,Flare,Disease Flare
+8004,CYC,486,Normal,Lost Follow-up
+8005,RTX,443,Flare,Disease Flare
+8101,CYC,539,Flare,Disease Flare
+8102,RTX,545,Normal,Complete 18 Month
+9001,RTX,556,Normal,Complete 18 Month
+9002,RTX,542,Normal,Complete 18 Month
+9003,CYC,269,Flare,Disease Flare
+9004,CYC,546,Normal,Complete 18 Month
+9006,CYC,549,Normal,Complete 18 Month
+9007,RTX,546,Normal,Complete 18 Month
+9008,RTX,270,Flare,Disease Flare
+9010,RTX,262,Flare,Disease Flare
+9011,RTX,364,Flare,Disease Flare
+9013,CYC,541,Normal,Complete 18 Month
+9102,RTX,218,Flare,Disease Flare
+9103,CYC,185,Normal,Lost Follow-up
+9104,RTX,465,Flare,Disease Flare

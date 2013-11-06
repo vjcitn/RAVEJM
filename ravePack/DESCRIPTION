@@ -1,9 +1,10 @@
 Package: ravePack
 Title: Analyses of RAVE ANCA vasculitis flare risk
-Version: 0.0.0
+Version: 0.0.4
 Author: Noha Lim <nlim@immunetolerance.org>, VJ Carey <stvjc@channing.harvard.edu>
 Description: Analyses of RAVE ANCA vasculitis flare risk
 Suggests: 
+Imports: Biobase
 Depends: JM, weaver
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Private
