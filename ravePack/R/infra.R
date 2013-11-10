@@ -6,7 +6,36 @@ JMset = function(list) {
  new("JMset", list, ids=names(list))
 }
 
-MSET = JMset(msplit)
+setMethod("[", "JMset", function(x, i, j, ..., drop=FALSE) {
+ new("JMset", as(x, "list")[i], ids=x@ids[i])
+})
+
+setGeneric("filter", function(x, f) standardGeneric("filter"))
+setMethod("filter", c("JMset", "function"), function(x, f) {
+ xf = lapply(x, f)
+ ok = sapply(xf, function(z) !is.null(z))
+ nids = x@ids[ok]
+ new("JMset", xf[ok], ids=nids)
+})
+
+setAs("JMset", "data.frame", function (from, to, strict=TRUE) {
+  as.data.frame(do.call(rbind, from))
+})
+
+addStartEnd = function(x, timevbl="days_from_comrem1",
+  outcomevbl="clin_status", eventcode="relapse") {
+  stopifnot(is(x, "data.frame"))
+  nrec = nrow(x)
+  nf = x[-nrec,]
+  nf$start = x[[timevbl]][-nrec]
+  nf$end = x[[timevbl]][-1]
+  nf$event = 1*(x[[outcomevbl]][-1] == eventcode)
+  nf[[outcomevbl]] = x[[outcomevbl]][-1]
+  nf
+}
+
+
+#MSET = JMset(msplit)
 
 .plotOne = function(x, id)  {
   with(x, {
@@ -44,7 +73,8 @@ collectFour = function(x, inds) {
   myl = x[inds]
   nl = lapply(1:4, function(ind) {
       curx = myl[[ind]]
-      curx$remissionStarts = rep(na.omit(with(curx, unique(days_from_rand[days_from_comrem1==0])))[1], nrow(curx))
+      minrem = min(curx$days_from_comrem1, na.rm=TRUE)
+      curx$remissionStarts = rep(na.omit(with(curx, unique(days_from_rand[days_from_comrem1==minrem])))[1], nrow(curx))
       suppressWarnings({curx$relapseStarts = rep(na.omit(with(curx, min(days_from_rand[clin_status == "relapse"]))), nrow(curx))})
       curx$ids = rep(x@ids[inds[ind]], nrow(curx))
       curx$row = ifelse(ind <= 2, 1, 2)
@@ -54,7 +84,7 @@ collectFour = function(x, inds) {
   do.call(rbind, nl)
 }
 
-plotFour = function(x, inds) {
+.old.plotFour = function(x, inds) {
       cl = collectFour(x, inds)
       remis = data.frame(t(sapply(split(cl, as.character(cl$participantId)), function(x) c(remis=x$remissionStarts[1], row=x$row[1], col=x$col[1]))))
       p = ggplot(cl, aes(x=days_from_rand, y=log2_val, colour=Assay_test)) + geom_point() +
@@ -62,8 +92,8 @@ plotFour = function(x, inds) {
       return(p)
 }
 
-remrefdata = sapply(split(MM$remissionStarts, MM$participantId), "[", 1)
-relrefdata = sapply(split(MM$relapseStarts, MM$participantId), "[", 1)
+#remrefdata = sapply(split(MM$remissionStarts, MM$participantId), "[", 1)
+#relrefdata = sapply(split(MM$relapseStarts, MM$participantId), "[", 1)
 #xyplot(log2_val~days_from_rand|participantId, data=MM, col=as.numeric(MM$Assay_test), pch=19, 
 #  groups=MM$Assay_Test, auto.key=TRUE, panel=
 # function(...) {panel.xyplot(...); panel.abline(v=remrefdata[packet.number()],col="green"); 
@@ -77,3 +107,13 @@ xyplFour = function(df) {
  function(...) {panel.xyplot(...); panel.abline(v=remrefdata[packet.number()],col="green"); 
                panel.abline(v=relrefdata[packet.number()], col="red")})
 }
+
+.plotFour = function(x, inds) {
+ xyplFour(x[inds,])
+}
+
+setGeneric("plotFour", function(x, inds) standardGeneric("plotFour"))
+setMethod("plotFour", c("JMset", "numeric"), function(x, inds) {
+  d = collectFour(x, inds)
+  xyplFour(d)
+})
