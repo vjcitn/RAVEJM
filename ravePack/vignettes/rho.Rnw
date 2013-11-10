@@ -1,0 +1,143 @@
+
+%
+% NOTE -- ONLY EDIT THE .Rnw FILE!!!  The .tex file is
+% likely to be overwritten.
+%
+
+%\VignetteIndexEntry{}
+%\VignetteDepends{}
+%\VignetteKeywords{}
+%\VignettePackage{}
+
+\documentclass[12pt]{article}
+
+\usepackage{amsmath,pstricks}
+\usepackage[authoryear,round]{natbib}
+\usepackage{hyperref}
+
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\scscst}{\scriptscriptstyle}
+\newcommand{\scst}{\scriptstyle}
+
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+
+\textwidth=6.2in
+
+\bibliographystyle{plainnat} 
+ 
+\begin{document}
+%\setkeys{Gin}{width=0.55\textwidth}
+
+\title{Various approaches to longitudinal+survival data}
+\author{VJ Carey}
+\maketitle
+
+
+basic data
+<<doit>>=
+library(ravePack)
+m <- read.csv(system.file("csv/relapse_analysis_set.csv", package="ravePack"))
+msplit = split(m, m[,1])
+MSET = new("JMset", msplit, ids=names(msplit))
+setGeneric("plotFour", function(x, inds) standardGeneric("plotFour"))
+setMethod("plotFour", c("JMset", "numeric"), function(x, inds) {
+  d = collectFour(x, inds)
+  xyplFour(d)
+})
+<<lkfi,fig=TRUE>>=
+plotFour(MSET, 1:4)
+@
+
+positive control.  test for ANCA effect in time-dependent cox model
+
+<<lkcanca>>=
+library(survival)
+ancafilt = function(x) x[x$Assay_test == "ANCA",]
+Manca = filter(MSET, ancafilt)
+Manca = filter(Manca, function(x) x[x$clin_status != "remission induction",])
+MSETA = filter(Manca, addStartEnd)
+c1 = coxph(Surv(start,end,event)~+TRT+log2_val+cluster(participantId), data=as(MSETA, "data.frame"))
+summary(c1)
+@
+
+tailoring the data to JM
+
+<<dofilt>>=
+relapsFilt = function(x) { last = which(x$clin_status=="relapse")[1]; 
+   if (length(last)==0 | is.na(last)) return(x[nrow(x),,drop=FALSE])
+   return(x[last,,drop=FALSE])
+}
+MBASIC = filter(MSETA, relapsFilt)
+bad = which(sapply(MBASIC, nrow)==0)
+if (length(bad)>0) {
+   Manca = Manca[-bad]
+   MBASIC = MBASIC[-bad]
+   }
+coxm1 = coxph(Surv(end, event)~TRT+cluster(participantId), data=as(MBASIC, "data.frame"), x=TRUE)
+library(nlme)
+lme1 = lme(log2_val~days_from_comrem1, ~1|participantId, data=as(Manca, "data.frame"), na.action=na.omit)
+jm1 = jointModel(lme1, coxm1, "days_from_comrem1")
+summary(jm1)
+@
+
+<<ravejm>>=
+raveJM = function(jms, markername, timevbl="days_from_comrem1",
+  survfmla=Surv(end, event)~TRT+cluster(participantId),
+  survfmlaTDC=Surv(start, end, event)~TRT+log2_val+cluster(participantId),
+  lmefmla=log2_val~TRT+poly(days_from_comrem1,2),
+  lmerandfmla=~days_from_comrem1|participantId, ...) {
+#
+# will filter to marker, kick out data on induction, and generate simple
+# survival analysis of time to relapse and JM
+#
+ mmark = filter(jms, function(x) x[x$Assay_test==markername,])
+ mmark = filter(mmark, function(x) x[x$clin_status != "remission_induction",])
+ msurv = filter(mmark, addStartEnd)
+ msurvSimple = filter(msurv, relapsFilt)
+ bad = which(sapply(msurvSimple, function(x)x[,"end",drop=FALSE])==0)  # remission only at end of obs.
+ if (length(bad)>0) {
+       msurvSimple = msurvSimple[-bad]
+       mmark = mmark[-bad]
+       msurv = msurv[-bad]
+       message(paste0("NOTE: ", length(bad), " records had remission only at end of observation."))
+       }
+ coxm1 = coxph(survfmla, data=as(msurvSimple, "data.frame"), x=TRUE)
+ lmefmla <<- lmefmla
+ lmerandfmla <<- lmerandfmla
+ lme1 = lme(lmefmla, rand=lmerandfmla, data=as(mmark, "data.frame"), na.action=na.omit)
+ tdc = coxph(survfmlaTDC, data=as(msurv, "data.frame"))
+ jm1 = jointModel(lme1, coxm1, timevbl, ...)
+ list(coxm1=coxm1, lme1=lme1, tdc=tdc, jm1=jm1,
+   mmark=mmark, msurv=msurv)
+}
+r1 = raveJM(MSET, "ANCA")
+r2 = raveJM(MSET, "B cells (CD19)")
+@
+
+<<lklongit,fig=TRUE>>=
+hist(sapply(1:length(r2$mmark),function(x)max(r2$mmark[[x]]$days_from_comrem1,na.rm=TRUE)),
+  main="Duration of observation of B cells", xlab="Days from complete remission")
+@
+<<lklongit2,fig=TRUE>>=
+hist(nb <- sapply(1:length(r2$mmark),
+  function(x)length(na.omit(r1$mmark[[x]]$days_from_comrem1))),
+  breaks=(1:6)+.5, xlab="nonmissing",
+  main="Number of observations of B cells", right=FALSE)
+@
+
+
+
+\end{document}
