@@ -98,6 +98,7 @@ raveJM = function(jms, markername, timevbl="days_from_comrem1",
   survfmla=Surv(end, event)~TRT+cluster(participantId),
   survfmlaTDC=Surv(start, end, event)~TRT+log2_val+cluster(participantId),
   lmefmla=log2_val~TRT+poly(days_from_comrem1,2),
+#  lmefmla=log2_val~TRT+days_from_comrem1,
   lmerandfmla=~days_from_comrem1|participantId, ...) {
 #
 # will filter to marker, kick out data on induction, and generate simple
@@ -123,19 +124,50 @@ raveJM = function(jms, markername, timevbl="days_from_comrem1",
  list(coxm1=coxm1, lme1=lme1, tdc=tdc, jm1=jm1,
    mmark=mmark, msurv=msurv)
 }
-r1 = raveJM(MSET, "ANCA")
-r2 = raveJM(MSET, "B cells (CD19)")
+jm.anca = raveJM(MSET, "ANCA")
+jm.bcells = raveJM(MSET, "B cells (CD19)")
+jm.bcells.lag = raveJM(MSET, "B cells (CD19)", lag=28)
+jm.tcells = raveJM(MSET, "T cells")
+basicJM = list(anca=jm.anca, bcells.lag0=jm.bcells,
+   bcells.lag28=jm.bcells.lag, tcells=jm.tcells)
+pw.jm.anca = raveJM(MSET, "ANCA", method="piecewise-PH-GH",
+  control=list(lng.in.kn=3))
+pw.jm.bcells = raveJM(MSET, "B cells (CD19)", method="piecewise-PH-GH",
+  control=list(lng.in.kn=3))
+pw.jm.bcells.lag = raveJM(MSET, "B cells (CD19)", lag=28, method="piecewise-PH-GH",
+  control=list(lng.in.kn=3))
+pw.jm.tcells = raveJM(MSET, "T cells", method="piecewise-PH-GH",
+  control=list(lng.in.kn=3))
+pwJM = list(anca=pw.jm.anca, bcells.lag0=pw.jm.bcells,
+   bcells.lag28=pw.jm.bcells.lag, tcells=pw.jm.tcells)
+linlmefmla=log2_val~TRT+days_from_comrem1
+lin.jm.anca = raveJM(MSET, "ANCA", lmefmla=linlmefmla)
+lin.jm.bcells = raveJM(MSET, "B cells (CD19)", lmefmla=linlmefmla)
+lin.jm.bcells.lag = raveJM(MSET, "B cells (CD19)", lag=28, lmefmla=linlmefmla)
+lin.jm.tcells = raveJM(MSET, "T cells", lmefmla=linlmefmla)
+lin.basicJM = list(anca=lin.jm.anca, bcells.lag0=lin.jm.bcells,
+   bcells.lag28=lin.jm.bcells.lag, tcells=lin.jm.tcells)
 @
 
 <<lklongit,fig=TRUE>>=
-hist(sapply(1:length(r2$mmark),function(x)max(r2$mmark[[x]]$days_from_comrem1,na.rm=TRUE)),
+hist(sapply(1:length(jm.bcells$mmark),function(x)max(jm.bcells$mmark[[x]]$days_from_comrem1,na.rm=TRUE)),
   main="Duration of observation of B cells", xlab="Days from complete remission")
 @
 <<lklongit2,fig=TRUE>>=
-hist(nb <- sapply(1:length(r2$mmark),
-  function(x)length(na.omit(r1$mmark[[x]]$days_from_comrem1))),
+hist(nb <- sapply(1:length(jm.bcells$mmark),
+  function(x)length(na.omit(jm.bcells$mmark[[x]]$days_from_comrem1))),
   breaks=(1:6)+.5, xlab="nonmissing",
   main="Number of observations of B cells", right=FALSE)
+@
+
+<<doresid,fig=TRUE>>=
+par(mfrow=c(2,2))
+plot(lin.basicJM$bcells.lag0[[4]], which=1, caption=
+  "resid vs. fitted, linear")
+plot(basicJM$bcells.lag0[[4]], which=1, caption=
+  "resid vs. fitted, quadratic")
+plot(pwJM$bcells.lag0[[4]], which=1, caption=
+  "resid vs. fitted, quadratic, PW")
 @
 
 
